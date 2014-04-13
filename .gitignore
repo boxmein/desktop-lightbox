@@ -1,0 +1,5 @@
+*.exe
+*.suo
+*.zip
+Lightbox/bin
+Lightbox/obj

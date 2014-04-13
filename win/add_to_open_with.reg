@@ -1,0 +1,19 @@
+Windows Registry Editor Version 5.00
+[HKEY_CLASSES_ROOT\.jpg\OpenWithProgids]
+"lightboxasdgasfggre"=hex(0):
+[HKEY_CLASSES_ROOT\.png\OpenWithProgids]
+"lightboxasdgasfggre"=hex(0):
+[HKEY_CLASSES_ROOT\.gif\OpenWithProgids]
+"lightboxasdgasfggre"=hex(0):
+[HKEY_CLASSES_ROOT\.bmp\OpenWithProgids]
+"lightboxasdgasfggre"=hex(0):
+[HKEY_CLASSES_ROOT\.tif\OpenWithProgids]
+"lightboxasdgasfggre"=hex(0):
+
+[HKEY_CLASSES_ROOT\lightboxasdgasfggre]
+@="Image File"
+
+[HKEY_CLASSES_ROOT\lightboxasdgasfggre\shell]
+[HKEY_CLASSES_ROOT\lightboxasdgasfggre\shell\open]
+[HKEY_CLASSES_ROOT\lightboxasdgasfggre\shell\open\command]
+@="\"C:\\lightbox\\Lightbox.exe\" \"%1\""
