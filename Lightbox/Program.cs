@@ -23,23 +23,28 @@ namespace Lightbox
                 d.Filter = "Image Files (*.bmp, *.gif, *.jpg, *.png, *.tif)|*.bmp;*.jpg;*.png;*.gif;*.tif";
                 if (d.ShowDialog() != DialogResult.OK)
                 {
-                    Application.Exit();
+                	Application.Exit();
+                    return;
                 }
                 filename = d.FileName;
             }
             // If there are, it's argument #1 we care of!
-            else 
+            else {
                 filename = args[0];
+            }
 
             // File doesn't exist, let's die
             if (!File.Exists(filename))
             {
-                MessageBox.Show(Lightbox.Properties.Resources.FileNotFoundTitle +
-                    " - lightbox",
+                MessageBox.Show(
                     // no stack trace
                     String.Format(Lightbox.Properties.Resources.FileNotFoundDescriptionN,
-                        args[0]));
+                        args[0]),
+                    Lightbox.Properties.Resources.FileNotFoundTitle +
+                        " - lightbox"
+                );
                 Application.Exit();
+                return;
             }
             
 
@@ -52,14 +57,27 @@ namespace Lightbox
             }
             // File.exists(args[0]) = true,
             // new Bitmap(args[0]) = not found, will this ever happen?
-            catch (FileNotFoundException e)
+            catch (Exception e)
             {
-                MessageBox.Show(Lightbox.Properties.Resources.FileNotFoundTitle +
-                    " - lightbox",
-                    // stack trace
-                    String.Format(Lightbox.Properties.Resources.FileNotFoundDescription,
-                        args[0], e.ToString()));
+            	if (e is FileNotFoundException) {
+	                MessageBox.Show(
+	            		// stack trace
+	                    String.Format(Lightbox.Properties.Resources.FileNotFoundDescription,
+	                        args[0], e.ToString()),
+	            		Lightbox.Properties.Resources.FileNotFoundTitle +
+	                        " - lightbox"
+	                );
+            	} else {
+            		MessageBox.Show(
+	            		// stack trace
+	                    String.Format(Lightbox.Properties.Resources.ExceptionDescription,
+	                        args[0], e.ToString()),
+	            		Lightbox.Properties.Resources.ExceptionTitle +
+	                        " - lightbox"
+	                );
+            	}
                 Application.Exit();
+                return;
             }
 
             Application.EnableVisualStyles();
