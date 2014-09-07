@@ -61,6 +61,16 @@ namespace Lightbox.Properties {
 		}
 		
 		/// <summary>
+		///   Looks up a localized resource of type System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap checkerboard {
+			get {
+				object obj = ResourceManager.GetObject("checkerboard", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
 		///   Looks up a localized string similar to Probably the format wasn&apos;t supported.
 		///Here&apos;s a stack trace: {1}.
 		/// </summary>

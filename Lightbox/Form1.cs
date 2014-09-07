@@ -26,8 +26,6 @@ namespace Lightbox
         public Form1(Bitmap b)
         {
             InitializeComponent();
-            /// stole the approach from
-            // https://github.com/lokesh/lightbox2/blob/master/js/lightbox.js
             
             // max possible w/h
             int miW = SystemInformation.VirtualScreen.Width - 
@@ -38,29 +36,18 @@ namespace Lightbox
             // if we need to resize...
             if (b.Width > miW || b.Height > miH)
             {   
-                // if we're too large on the width side
-                if (b.Width / miW > b.Height / miW)
-                {
-                    pictureBox1.Width = miW;
-                    pictureBox1.Height = b.Height / (b.Width / miH);
-                }
-                // if we're too large on the height side
-                else
-                {
-                    pictureBox1.Height = miH;
-                    pictureBox1.Width = b.Width / (b.Height / miW);
-                }
+            	double ratio = Math.Min((double)miW / b.Width, (double)miH / b.Height);
+            	this.Width = (int)Math.Floor(b.Width * ratio);
+            	this.Height = (int)Math.Floor(b.Height * ratio);
             }
             // if not, let's just use its size!
             else
             {
-                pictureBox1.Width = b.Width;
-                pictureBox1.Height = b.Height;
+                this.Width = b.Width;
+                this.Height = b.Height;
             }
 
             pictureBox1.Image = b;
-            this.Width = pictureBox1.Width;
-            this.Height = pictureBox1.Height;
 
             // set up events to close the window et al
             this.Click += onClick;
