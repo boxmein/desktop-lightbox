@@ -39,6 +39,9 @@ Made primarily on Windows and for Windows, however I'm fairly sure this won't be
 hard to port to support Mono. 
 
 Made by boxmein 2014-04-14 02:25  
+
+Contributors: [nucular](https://github.com/nucular)
+
 [**Feedback**][eml].
 
 
