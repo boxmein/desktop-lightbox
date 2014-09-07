@@ -16,13 +16,15 @@ if sys.argv[1] == 'win':
     try: 
       z.write('Lightbox.exe')
     except: 
-      print ("fatal: ./Lightbox.exe is unreadable. Probably doesn't exist, that means.")
+      print ("warning: ./Lightbox.exe is unreadable. Probably doesn't exist, that means.")
       try:
-        z.write('Lightbox/bin/Release/Lightbox.exe')
+        z.write('Lightbox/bin/Release/Lightbox.exe', 'Lightbox.exe')
       except:
-        print("double fatal: ./Lightbox/bin/release/Lightbox.exe doesn't seem to be readable either. Are you sure you compiled Lightbox?")
-      exit(0)
+        print("fatal: ./Lightbox/bin/release/Lightbox.exe doesn't seem to be readable either. Are you sure you compiled Lightbox?")
+      	exit(0)
 
+    z.write('Lightbox/lib/FreeImage.dll', arcname='FreeImage.dll')
+    z.write('Lightbox/lib/FreeImageNET.dll', arcname='FreeImageNET.dll')
     z.write('README.md')
     z.write('win/remove_from_open_with.bat', arcname='remove_from_open_with.bat')
     z.write('win/remove_from_open_with.reg', arcname='remove_from_open_with.reg')

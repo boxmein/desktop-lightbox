@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+using FreeImageAPI;
+
 namespace Lightbox
 {
     static class Program
@@ -20,10 +22,13 @@ namespace Lightbox
             if (args.Length == 0)
             {
                 OpenFileDialog d = new OpenFileDialog();
-                d.Filter = "Image Files (*.bmp, *.gif, *.jpg, *.png, *.tif)|*.bmp;*.jpg;*.png;*.gif;*.tif";
+                // our long list of supported files
+                d.Filter = Lightbox.Properties.Filetypes.Filter;
+                d.AutoUpgradeEnabled = false;
+                
                 if (d.ShowDialog() != DialogResult.OK)
                 {
-                	Application.Exit();
+                    Application.Exit();
                     return;
                 }
                 filename = d.FileName;
@@ -49,33 +54,9 @@ namespace Lightbox
             
 
             // we got us a catch!
-            // now to check if it's a valid image!
-            Bitmap b = null;
-            try
+            Bitmap b = LoadImage(filename);
+            if (b == null)
             {
-                b = new Bitmap(filename);
-            }
-            // File.exists(args[0]) = true,
-            // new Bitmap(args[0]) = not found, will this ever happen?
-            catch (Exception e)
-            {
-            	if (e is FileNotFoundException) {
-	                MessageBox.Show(
-	            		// stack trace
-	                    String.Format(Lightbox.Properties.Resources.FileNotFoundDescription,
-	                        args[0], e.ToString()),
-	            		Lightbox.Properties.Resources.FileNotFoundTitle +
-	                        " - lightbox"
-	                );
-            	} else {
-            		MessageBox.Show(
-	            		// stack trace
-	                    String.Format(Lightbox.Properties.Resources.ExceptionDescription,
-	                        args[0], e.ToString()),
-	            		Lightbox.Properties.Resources.ExceptionTitle +
-	                        " - lightbox"
-	                );
-            	}
                 Application.Exit();
                 return;
             }
@@ -85,6 +66,78 @@ namespace Lightbox
             Form f = new Form1(b);
             f.StartPosition = FormStartPosition.CenterScreen;
             Application.Run(f);
+        }
+        
+        static Bitmap LoadImage(String filename)
+        {
+            // now to check if it's a valid image!
+            Bitmap b = null;
+            try
+            {
+                // try loading with .Net first
+                b = new Bitmap(filename);
+            }
+            catch (Exception e1)
+            {
+                if (e1 is FileNotFoundException)
+                {
+                    // File.exists(args[0]) = true,
+                    // new Bitmap(args[0]) = not found, will this ever happen?
+                    MessageBox.Show(
+                        // stack trace
+                        String.Format(Lightbox.Properties.Resources.FileNotFoundDescription,
+                            filename, e1.ToString()),
+                        Lightbox.Properties.Resources.FileNotFoundTitle +
+                            " - lightbox"
+                    );
+                }
+                else if (e1 is ArgumentException)
+                {
+                    try
+                    {
+                        // .Net doesn't want to load our image
+                        // let's try FreeImage
+                        FreeImageBitmap fib = new FreeImageBitmap(filename);
+                        b = (Bitmap)fib;
+                    }
+                    catch (Exception e2)
+                    {
+                        if (e2 is DllNotFoundException)
+                        {
+                            // we can't reach the DLL somewhy, give up loading
+                            MessageBox.Show(
+                                // stack trace
+                                String.Format(Lightbox.Properties.Resources.DllNotFoundDescription,
+                                    filename, e2.ToString()),
+                                Lightbox.Properties.Resources.DllNotFoundTitle +
+                                    " - lightbox"
+                            );
+                        }
+                        else {
+                            // FI threw some other exception
+                            MessageBox.Show(
+                                // stack trace
+                                String.Format(Lightbox.Properties.Resources.FIExceptionDescription,
+                                    filename, e2.ToString()),
+                                Lightbox.Properties.Resources.FIExceptionTitle +
+                                    " - lightbox"
+                            );
+                        }
+                    }
+                }
+                else
+                {
+                    // Some weird other exception appeared while loading
+                    MessageBox.Show(
+                        // stack trace
+                        String.Format(Lightbox.Properties.Resources.ExceptionDescription,
+                            filename, e1.ToString()),
+                        Lightbox.Properties.Resources.ExceptionTitle +
+                            " - lightbox"
+                    );
+                }
+            }
+            return b;
         }
     }
 }

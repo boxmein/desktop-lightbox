@@ -36,9 +36,9 @@ namespace Lightbox
             // if we need to resize...
             if (b.Width > miW || b.Height > miH)
             {   
-            	double ratio = Math.Min((double)miW / b.Width, (double)miH / b.Height);
-            	this.Width = (int)Math.Floor(b.Width * ratio);
-            	this.Height = (int)Math.Floor(b.Height * ratio);
+                double ratio = Math.Min((double)miW / b.Width, (double)miH / b.Height);
+                this.Width = (int)Math.Floor(b.Width * ratio);
+                this.Height = (int)Math.Floor(b.Height * ratio);
             }
             // if not, let's just use its size!
             else
@@ -53,6 +53,7 @@ namespace Lightbox
             this.Click += onClick;
             this.LostFocus += onClick;
             this.KeyDown += onKey;
+            this.Closed += onClosed;
 
             pictureBox1.Click += onClick;
             // pictureBox1.MouseWheel += onWheel;
@@ -68,6 +69,11 @@ namespace Lightbox
         public void onKey(object sender, KeyEventArgs args)
         {
 
+        }
+        
+        public void onClosed(object sender, EventArgs args)
+        {
+            pictureBox1.Image.Dispose();
         }
     }
 }
