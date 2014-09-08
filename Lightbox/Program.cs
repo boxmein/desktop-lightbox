@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 using FreeImageAPI;
+using Svg;
 
 namespace Lightbox
 {
@@ -52,9 +53,28 @@ namespace Lightbox
                 return;
             }
             
-
+            
             // we got us a catch!
-            Bitmap b = LoadImage(filename);
+            Bitmap b = null;
+            using (FileStream fs = File.OpenRead(filename))
+            {
+                try {
+                    b = LoadImage(fs);
+                }
+                catch (Exception e)
+                {
+                    // one of the libs raised an exception
+                    MessageBox.Show(
+                        // stack trace
+                        String.Format(Lightbox.Properties.Resources.ExceptionDescription,
+                            filename, e.ToString()),
+                        Lightbox.Properties.Resources.ExceptionTitle +
+                            " - lightbox"
+                    );
+                }
+            }
+            // all libs denied to load our image (maybe it wasn't one after all)
+            // we could complain to the user but just go down for now
             if (b == null)
             {
                 Application.Exit();
@@ -68,76 +88,81 @@ namespace Lightbox
             Application.Run(f);
         }
         
-        static Bitmap LoadImage(String filename)
+        static Bitmap LoadImage(FileStream fs)
         {
-            // now to check if it's a valid image!
+            // try .Net
+            Bitmap b = LoadImageNet(fs);
+            if (b == null)
+            {
+                // nah, try FreeImage
+                b = LoadImageFI(fs);
+            }
+            if (b == null)
+            {
+                // maybe SVG works
+                b = LoadImageSVG(fs);
+            }
+            return b;
+        }
+        
+        static Bitmap LoadImageNet(FileStream fs)
+        {
+            try
+            {
+                // try to load with .Net only
+                return new Bitmap(fs);
+            }
+            catch (ArgumentException)
+            {
+                // this is what .Net throws when it fails to load a bitmap
+                return null;
+            }
+        }
+        
+        static Bitmap LoadImageSVG(FileStream fs)
+        {
+            try
+            {
+                // try SVG.NET
+                SvgDocument svg = SvgDocument.Open<SvgDocument>(fs, null);
+                return svg.Draw();
+            }
+            catch (System.Xml.XmlException)
+            {
+                // this is what SVG.NET throws when it fails
+                return null;
+            }
+        }
+        
+        static Bitmap LoadImageFI(FileStream fs)
+        {
             Bitmap b = null;
             try
             {
-                // try loading with .Net first
-                b = new Bitmap(filename);
+                // let's try FreeImage
+                FreeImageBitmap fib = new FreeImageBitmap(fs);
+                b = (Bitmap)fib;
+                return b;
             }
-            catch (Exception e1)
+            catch (Exception e)
             {
-                if (e1 is FileNotFoundException)
+                if (e is DllNotFoundException)
                 {
-                    // File.exists(args[0]) = true,
-                    // new Bitmap(args[0]) = not found, will this ever happen?
+                    // we can't reach the DLL, complain about that
                     MessageBox.Show(
                         // stack trace
-                        String.Format(Lightbox.Properties.Resources.FileNotFoundDescription,
-                            filename, e1.ToString()),
-                        Lightbox.Properties.Resources.FileNotFoundTitle +
+                        String.Format(Lightbox.Properties.Resources.DllNotFoundDescription,
+                            fs.Name, e.ToString()),
+                        Lightbox.Properties.Resources.DllNotFoundTitle +
                             " - lightbox"
                     );
+                    return null;
                 }
-                else if (e1 is ArgumentException)
-                {
-                    try
-                    {
-                        // .Net doesn't want to load our image
-                        // let's try FreeImage
-                        FreeImageBitmap fib = new FreeImageBitmap(filename);
-                        b = (Bitmap)fib;
-                    }
-                    catch (Exception e2)
-                    {
-                        if (e2 is DllNotFoundException)
-                        {
-                            // we can't reach the DLL somewhy, give up loading
-                            MessageBox.Show(
-                                // stack trace
-                                String.Format(Lightbox.Properties.Resources.DllNotFoundDescription,
-                                    filename, e2.ToString()),
-                                Lightbox.Properties.Resources.DllNotFoundTitle +
-                                    " - lightbox"
-                            );
-                        }
-                        else {
-                            // FI threw some other exception
-                            MessageBox.Show(
-                                // stack trace
-                                String.Format(Lightbox.Properties.Resources.FIExceptionDescription,
-                                    filename, e2.ToString()),
-                                Lightbox.Properties.Resources.FIExceptionTitle +
-                                    " - lightbox"
-                            );
-                        }
-                    }
-                }
-                else
-                {
-                    // Some weird other exception appeared while loading
-                    MessageBox.Show(
-                        // stack trace
-                        String.Format(Lightbox.Properties.Resources.ExceptionDescription,
-                            filename, e1.ToString()),
-                        Lightbox.Properties.Resources.ExceptionTitle +
-                            " - lightbox"
-                    );
+                else {
+                    // FI threw some other exception, so it can't load either
+                    return null;
                 }
             }
-            return b;
         }
     }
 }

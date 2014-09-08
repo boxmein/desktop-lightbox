@@ -101,7 +101,7 @@ namespace Lightbox.Properties {
 		}
 		
 		/// <summary>
-		///   Looks up a localized string similar to I ran into a weird error while loading the file &apos;{0}&apos;.
+		///   Looks up a localized string similar to I ran into a weird error while loading the file &apos;{0}&apos;.  I&apos;m not sure what else to do so I&apos;ll just go down.
 		///Here&apos;s a stack trace:
 		///
 		///{1}.
@@ -127,36 +127,6 @@ namespace Lightbox.Properties {
 		internal static string ExceptionTitle {
 			get {
 				return ResourceManager.GetString("ExceptionTitle", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Looks up a localized string similar to Even FreeImage errored while loading the file &apos;{0}&apos;.
-		///Here&apos;s a stack trace:
-		///
-		///{1}.
-		/// </summary>
-		internal static string FIExceptionDescription {
-			get {
-				return ResourceManager.GetString("FIExceptionDescription", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Looks up a localized string similar to FreeImage couldn&apos;t load the file &apos;{0}&apos;. :(.
-		/// </summary>
-		internal static string FIExceptionDescriptionN {
-			get {
-				return ResourceManager.GetString("FIExceptionDescriptionN", resourceCulture);
-			}
-		}
-		
-		/// <summary>
-		///   Looks up a localized string similar to FreeImage Exception.
-		/// </summary>
-		internal static string FIExceptionTitle {
-			get {
-				return ResourceManager.GetString("FIExceptionTitle", resourceCulture);
 			}
 		}
 		

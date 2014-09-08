@@ -53,6 +53,9 @@
     <Reference Include="FreeImageNET">
       <HintPath>lib\FreeImageNET.dll</HintPath>
     </Reference>
+    <Reference Include="Svg">
+      <HintPath>lib\Svg.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -93,6 +96,7 @@
     <None Include="lib\FreeImageNET.dll">
       <Link>FreeImageNET.dll</Link>
     </None>
+    <None Include="lib\Svg.dll" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

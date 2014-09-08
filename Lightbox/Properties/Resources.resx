@@ -130,7 +130,7 @@ Here's a stack trace:
     <value>File Not Found</value>
   </data>
   <data name="ExceptionDescription" xml:space="preserve">
-    <value>I ran into a weird error while loading the file '{0}'.
+    <value>I ran into a weird error while loading the file '{0}'.  I'm not sure what else to do so I'll just go down.
 Here's a stack trace:
 
 {1}</value>
@@ -145,22 +145,10 @@ Here's a stack trace:
   <data name="checkerboard" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsAAAA7AAWrWiQkAAACBSURBVFhH7dcxCgAhDETRHDU3ydEVW5uPJIXFL6xmlfBw
+        YQUAAAAJcEhZcwAADr8AAA6/ATgFUyQAAACBSURBVFhH7dcxCgAhDETRHDU3ydEVW5uPJIXFL6xmlfBw
         wI2qWpMrM9fkisnhzlmTw52zHLArqqCCry3vit37vYNdUQUVtMXw+rEklsSSUEm6d+Te/ypO34cDNv8a
         FaQ7RrmCJES5giREuYIkRLmCJES5giREuYIkRLmCJET594Ib+v1lM7zrFjoAAAAASUVORK5CYII=
 </value>
-  </data>
-  <data name="FIExceptionTitle" xml:space="preserve">
-    <value>FreeImage Exception</value>
-  </data>
-  <data name="FIExceptionDescription" xml:space="preserve">
-    <value>Even FreeImage errored while loading the file '{0}'.
-Here's a stack trace:
-
-{1}</value>
-  </data>
-  <data name="FIExceptionDescriptionN" xml:space="preserve">
-    <value>FreeImage couldn't load the file '{0}'. :(</value>
   </data>
   <data name="DllNotFoundTitle" xml:space="preserve">
     <value>FreeImage DLL Not Found</value>

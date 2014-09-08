@@ -6,6 +6,7 @@ filetypes =  [
     ["Graphics Interchange Format", ["gif", "gfa", "giff"]],
     ["Windows Bitmap images", ["bmp", "dib", "rle", "2bp"]],
     ["Tagged Image File Format", ["tiff", "tif"]],
+    ["Scalable Vector Graphics", ["svg", "svgz"]],
     ["Windows Icons", ["ico", "cur"]],
     ["Dr. Halo Bitmaps", ["cut"]],
     ["DirectDraw Surfaces", ["dds"]],

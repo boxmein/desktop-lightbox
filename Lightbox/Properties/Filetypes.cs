@@ -2,12 +2,13 @@
 namespace Lightbox.Properties
 {
     internal class Filetypes {
-        public static string Filter = "All supported images|*.png;*.jpg;*.jpeg;*.jpe;*.gif;*.gfa;*.giff;*.bmp;*.dib;*.rle;*.2bp;*.tiff;*.tif;*.ico;*.cur;*.cut;*.dds;*.exr;*.g3;*.iff;*.jbig;*.bie;*.jbg;*.jng;*.jif;*.jfif;*.jfi;*.jp2;*.j2c;*.jpc;*.j2k;*.jpx;*.wdp;*.hdp;*.jxr;*.koa;*.kla;*.gg;*.pcd;*.mng;*.pcx;*.pcc;*.dcx;*.ppm;*.pgm;*.pbm;*.pfm;*.pict;*.pic;*.pct;*.pct1;*.pct2;*.psd;*.psb;*.pdb;*.pdd;*.3fr;*.ari;*.arw;*.ay;*.rw;*.cr2;*.cap;*.cs;*.dcr;*.dng;*.drf;*.ip;*.erf;*.ff;*.iq;*.25;*.kdc;*.dc;*.mef;*.mos;*.mrw;*.ef;*.nrw;*.bm;*.orf;*.ef;*.ptx;*.pxn;*.3d;*.raf;*.raw;*.rwl;*.rw2;*.rwz;*.r2;*.srf;*.srw;*.x3f;*.sun;*.ras;*.rs;*.im1;*.im8;*.im24;*.im32;*.sgi;*.rgb;*.rgba;*.bw;*.int;*.inta;*.icon;*.tga;*.tpic;*.wbmp;*.wbm;*.wbp;*.webp;*.xbm;*.bm;*.icon;*.bitmap;*.xpm;*.pm|"
+        public static string Filter = "All supported images|*.png;*.jpg;*.jpeg;*.jpe;*.gif;*.gfa;*.giff;*.bmp;*.dib;*.rle;*.2bp;*.tiff;*.tif;*.svg;*.svgz;*.ico;*.cur;*.cut;*.dds;*.exr;*.g3;*.iff;*.jbig;*.bie;*.jbg;*.jng;*.jif;*.jfif;*.jfi;*.jp2;*.j2c;*.jpc;*.j2k;*.jpx;*.wdp;*.hdp;*.jxr;*.koa;*.kla;*.gg;*.pcd;*.mng;*.pcx;*.pcc;*.dcx;*.ppm;*.pgm;*.pbm;*.pfm;*.pict;*.pic;*.pct;*.pct1;*.pct2;*.psd;*.psb;*.pdb;*.pdd;*.3fr;*.ari;*.arw;*.ay;*.rw;*.cr2;*.cap;*.cs;*.dcr;*.dng;*.drf;*.ip;*.erf;*.ff;*.iq;*.25;*.kdc;*.dc;*.mef;*.mos;*.mrw;*.ef;*.nrw;*.bm;*.orf;*.ef;*.ptx;*.pxn;*.3d;*.raf;*.raw;*.rwl;*.rw2;*.rwz;*.r2;*.srf;*.srw;*.x3f;*.sun;*.ras;*.rs;*.im1;*.im8;*.im24;*.im32;*.sgi;*.rgb;*.rgba;*.bw;*.int;*.inta;*.icon;*.tga;*.tpic;*.wbmp;*.wbm;*.wbp;*.webp;*.xbm;*.bm;*.icon;*.bitmap;*.xpm;*.pm|"
             + "Portable Network Graphics (.png)|*.png|"
             + "JPEG images (.jpg, .jpeg, .jpe)|*.jpg;*.jpeg;*.jpe|"
             + "Graphics Interchange Format (.gif, .gfa, .giff)|*.gif;*.gfa;*.giff|"
             + "Windows Bitmap images (.bmp, .dib, .rle, .2bp)|*.bmp;*.dib;*.rle;*.2bp|"
             + "Tagged Image File Format (.tiff, .tif)|*.tiff;*.tif|"
+            + "Scalable Vector Graphics (.svg, .svgz)|*.svg;*.svgz|"
             + "Windows Icons (.ico, .cur)|*.ico;*.cur|"
             + "Dr. Halo Bitmaps (.cut)|*.cut|"
             + "DirectDraw Surfaces (.dds)|*.dds|"
