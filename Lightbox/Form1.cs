@@ -23,7 +23,7 @@ namespace Lightbox
             }
         }
 
-        public Form1(Bitmap b)
+        public Form1(Image img)
         {
             InitializeComponent();
             
@@ -34,25 +34,28 @@ namespace Lightbox
                 Lightbox.Properties.Settings.Default.Padding * 2;
             
             // if we need to resize...
-            if (b.Width > miW || b.Height > miH)
+            if (img.Width > miW || img.Height > miH)
             {   
-            	double ratio = Math.Min((double)miW / b.Width, (double)miH / b.Height);
-            	this.Width = (int)Math.Floor(b.Width * ratio);
-            	this.Height = (int)Math.Floor(b.Height * ratio);
+                double ratio = Math.Min((double)miW / img.Width, (double)miH / img.Height);
+                this.Width = (int)Math.Floor(img.Width * ratio);
+                this.Height = (int)Math.Floor(img.Height * ratio);
             }
             // if not, let's just use its size!
             else
             {
-                this.Width = b.Width;
-                this.Height = b.Height;
+                this.Width = img.Width;
+                this.Height = img.Height;
             }
 
-            pictureBox1.Image = b;
+            pictureBox1.Image = img;
+            // push us to the foreground
+            this.Focus();
 
             // set up events to close the window et al
             this.Click += onClick;
             this.LostFocus += onClick;
             this.KeyDown += onKey;
+            this.Closed += onClosed;
 
             pictureBox1.Click += onClick;
             // pictureBox1.MouseWheel += onWheel;
@@ -68,6 +71,11 @@ namespace Lightbox
         public void onKey(object sender, KeyEventArgs args)
         {
 
+        }
+        
+        public void onClosed(object sender, EventArgs args)
+        {
+            pictureBox1.Image.Dispose();
         }
     }
 }

@@ -1,5 +1,7 @@
 *.exe
 *.suo
 *.zip
+*.pyc
+*.pyo
 Lightbox/bin
 Lightbox/obj
