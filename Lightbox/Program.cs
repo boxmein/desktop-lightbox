@@ -55,27 +55,27 @@ namespace Lightbox
             
             
             // we got us a catch!
-            Bitmap b = null;
-            using (FileStream fs = File.OpenRead(filename))
+            Image img = null;
+            try {
+            	using (FileStream fs = File.OpenRead(filename))
+            	{
+                	img = LoadImage(fs);
+            	}
+            }
+            catch (Exception e)
             {
-                try {
-                    b = LoadImage(fs);
-                }
-                catch (Exception e)
-                {
-                    // one of the libs raised an exception
-                    MessageBox.Show(
-                        // stack trace
-                        String.Format(Lightbox.Properties.Resources.ExceptionDescription,
-                            filename, e.ToString()),
-                        Lightbox.Properties.Resources.ExceptionTitle +
-                            " - lightbox"
-                    );
-                }
+                // one of the libs raised an exception
+                MessageBox.Show(
+                    // stack trace
+                    String.Format(Lightbox.Properties.Resources.ExceptionDescription,
+                        filename, e.ToString()),
+                    Lightbox.Properties.Resources.ExceptionTitle +
+                        " - lightbox"
+                );
             }
             // all libs denied to load our image (maybe it wasn't one after all)
             // we could complain to the user but just go down for now
-            if (b == null)
+            if (img == null)
             {
                 Application.Exit();
                 return;
@@ -83,43 +83,46 @@ namespace Lightbox
 
             Application.EnableVisualStyles();
 
-            Form f = new Form1(b);
+            Form f = new Form1(img);
             f.StartPosition = FormStartPosition.CenterScreen;
             Application.Run(f);
         }
         
-        static Bitmap LoadImage(FileStream fs)
+        static Image LoadImage(FileStream fs)
         {
-            // try .Net
-            Bitmap b = LoadImageNet(fs);
-            if (b == null)
+            // try GDI+
+            Image img = LoadImageGDI(fs);
+            if (img == null)
             {
                 // nah, try FreeImage
-                b = LoadImageFI(fs);
+                img = LoadImageFI(fs);
             }
-            if (b == null)
+            if (img == null)
             {
                 // maybe SVG works
-                b = LoadImageSVG(fs);
+                img = LoadImageSVG(fs);
             }
-            return b;
+            return img;
         }
         
-        static Bitmap LoadImageNet(FileStream fs)
+        static Image LoadImageGDI(FileStream fs)
         {
             try
             {
-                // try to load with .Net only
-                return new Bitmap(fs);
+            	// GDI+ really hates it when its stream gets disposed
+            	// so we first check if it can actually load it
+            	Image.FromStream(fs);
+            	// and then let it do its stuff from another stream
+            	return Image.FromFile(fs.Name);
             }
             catch (ArgumentException)
             {
-                // this is what .Net throws when it fails to load a bitmap
+                // this is what GDI+ throws when it fails to load a bitmap
                 return null;
             }
         }
         
-        static Bitmap LoadImageSVG(FileStream fs)
+        static Image LoadImageSVG(FileStream fs)
         {
             try
             {
@@ -134,15 +137,15 @@ namespace Lightbox
             }
         }
         
-        static Bitmap LoadImageFI(FileStream fs)
+        static Image LoadImageFI(FileStream fs)
         {
-            Bitmap b = null;
+            Image img = null;
             try
             {
                 // let's try FreeImage
                 FreeImageBitmap fib = new FreeImageBitmap(fs);
-                b = (Bitmap)fib;
-                return b;
+                img = (Bitmap)fib;
+                return img;
             }
             catch (Exception e)
             {
