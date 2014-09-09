@@ -48,6 +48,8 @@ namespace Lightbox
             }
 
             pictureBox1.Image = img;
+            // push us to the foreground
+            this.Focus();
 
             // set up events to close the window et al
             this.Click += onClick;

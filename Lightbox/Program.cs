@@ -3,6 +3,7 @@ using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Net;
 
 using FreeImageAPI;
 using Svg;
@@ -38,19 +39,29 @@ namespace Lightbox
             else {
                 filename = args[0];
             }
-
-            // File doesn't exist, let's die
-            if (!File.Exists(filename))
-            {
-                MessageBox.Show(
-                    // no stack trace
-                    String.Format(Lightbox.Properties.Resources.FileNotFoundDescriptionN,
-                        args[0]),
-                    Lightbox.Properties.Resources.FileNotFoundTitle +
-                        " - lightbox"
-                );
-                Application.Exit();
-                return;
+            
+            // if it's a local file
+            if (new Uri(filename).IsFile) {
+	            // File doesn't exist, let's die
+	            if (!File.Exists(filename))
+	            {
+	                MessageBox.Show(
+	                    // no stack trace
+	                    String.Format(Lightbox.Properties.Resources.FileNotFoundDescriptionN,
+	                        args[0]),
+	                    Lightbox.Properties.Resources.FileNotFoundTitle +
+	                        " - lightbox"
+	                );
+	                Application.Exit();
+	                return;
+	            }
+            }
+            else {
+            	// it's online, download it to a temporary file and use that
+            	String temp = Path.GetTempFileName();
+            	WebClient client = new WebClient();
+            	client.DownloadFile(filename, temp);
+            	filename = temp;
             }
             
             
